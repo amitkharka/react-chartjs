@@ -41,7 +41,7 @@ function App() {
         },
         layout: {
           padding: {
-            top: 50
+            top: 15
           }
         },
         tooltips: {
@@ -91,7 +91,7 @@ function App() {
 
             // Hide if no tooltip
             if (tooltipModel.opacity === 0) {
-              tooltipElement.remove();
+              // tooltipElement.remove();
               return;
             }
 
@@ -106,24 +106,30 @@ function App() {
             let leftPos = 0;
             if (tooltipModel.caretX < 90) {
               // arrow towards left
-              leftPos = tooltipModel.caretX;
+              leftPos = tooltipModel.caretX - 37;
               tooltipArrowPosition = 'left';
             } else if (diff >= 90) {
               // arrow center
               leftPos = position.left + window.pageXOffset + tooltipModel.caretX - 90;
             } else {
               // arrow towards right
-              leftPos = position.left + window.pageXOffset + tooltipModel.caretX - 180;
+              leftPos = tooltipModel.caretX - 180 + 37;
               tooltipArrowPosition = 'right';
             }
 
             tooltipElement.className = '';
-
+            // Set caret Position
+            tooltipElement.classList.remove('above', 'below', 'no-transform');
+            if (tooltipModel.yAlign) {
+              tooltipElement.classList.add(tooltipModel.yAlign);
+            } else {
+              tooltipElement.classList.add('no-transform');
+            }
             tooltipElement.classList.add(`tooltip-arrow--${tooltipArrowPosition}`);
 
             // Display, position, and set styles for font
             tooltipElement.style.left = leftPos + 'px';
-            tooltipElement.style.top = 0;
+            tooltipElement.style.top = '-20px';
           },
 
         }
