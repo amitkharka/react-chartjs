@@ -4,12 +4,12 @@ import './App.css';
 
 function App() {
 
-  const customTooltip = (chartInstance, tooltipModel) => {
+  const customTooltip = (chartInstance, tooltipModel, chartContainerNode) => {
     // Tooltip Element
     let tooltipElement = document.getElementById('custom-chartjs-tooltip');
 
     // Create element on first render
-    if (!tooltipElement) {
+    if (!tooltipElement && chartContainerNode) {
       tooltipElement = document.createElement('div');
       tooltipElement.id = 'custom-chartjs-tooltip';
       const tooltipFragment = document.createDocumentFragment();
@@ -43,7 +43,7 @@ function App() {
 
       tooltipElement.appendChild(tooltipFragment);
 
-      document.getElementById('my-chart-container').appendChild(tooltipElement);
+      chartContainerNode.appendChild(tooltipElement);
     }
 
     // Hide if no tooltip
@@ -134,7 +134,8 @@ function App() {
           enabled: false,
           position: 'nearest',
           custom: function (tooltipModel) {
-            customTooltip(this, tooltipModel);
+            const chartContainerNode = this._chart.canvas.parentNode;
+            customTooltip(this, tooltipModel, chartContainerNode);
           }
         }
       }
